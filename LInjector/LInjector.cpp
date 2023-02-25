@@ -42,7 +42,7 @@ int main(int argc, char const* argv[]) {
     {
         do
         {
-            if (wcsicmp(entry.szExeFile, Targett) == NULL) {
+            if (_wcsicmp(entry.szExeFile, Targett) == NULL) {
                 TargetProcessID = entry.th32ProcessID;
                 break;
             }
@@ -109,7 +109,7 @@ int main(int argc, char const* argv[]) {
     Entry.dwSize = sizeof(PROCESSENTRY32);
     while (Process32Next(Snapshot_, &Entry) == TRUE)
     {
-        if (wcsicmp(Entry.szExeFile, Targett) == NULL)
+        if (_wcsicmp(Entry.szExeFile, Targett) == NULL)
         {
             RblxProcessId = Entry.th32ProcessID;
             break;
