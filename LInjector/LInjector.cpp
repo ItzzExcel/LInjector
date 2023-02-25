@@ -25,6 +25,7 @@ int main(int argc, char const* argv[]) {
     {
         std::cerr << "An unexpected error loading the injector.";
         return 1;
+        system("pause");
     }
 
     // Cleaning Memory
@@ -54,6 +55,7 @@ int main(int argc, char const* argv[]) {
     {
         std::cerr << "Couldn't find process : " << Targett << std::endl;
         return 1;
+        system("pause");
     }
 
     // Getting a Handle 🗿🗿🗿
@@ -63,6 +65,7 @@ int main(int argc, char const* argv[]) {
     {
         std::cerr << "Couldn't get a handle for the target process." << std::endl;
         return 1;
+        system("pause");
     }
 
     // Get base module path
@@ -73,6 +76,7 @@ int main(int argc, char const* argv[]) {
     {
         std::cerr << "Couldn't get the base direction of the module of the process." << std::endl;
         return 1;
+        system("pause");
     }
 
     // Reserve memory block in the process
@@ -81,12 +85,14 @@ int main(int argc, char const* argv[]) {
     {
         std::cerr << "Couldn't reserve a memory block in the process." << std::endl;
         return 1;
+        system("pause");
     }
 
     // Write in the DLL Path to inject to the memory block.
     if (!WriteProcessMemory(TargetProcessHandle, RemoteMemory, DLLPath, strlen(DLLPath) + 1, NULL)) {
         std::cerr << "Couldn't write in the path of the Dynamic Link-Library in the memory block." << std::endl;
         return 1;
+        system("pause");
     }
 
     // Get the path of the function LoadLibrary
@@ -99,6 +105,7 @@ int main(int argc, char const* argv[]) {
     {
         std::cout << "Error: Couldn't get the path of LoadLibraryA." << std::endl;
         return 1;
+        system("pause");
     }
 
     // Get the Roblox Process ID
@@ -119,19 +126,27 @@ int main(int argc, char const* argv[]) {
     if (!RblxProcessId) {
         std::cout << "Couldn't find the Roblox process." << std::endl;
         return 1;
+        system("pause");
+
     }
 
     HANDLE RobloxProcessHandle = OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, RblxProcessId);
     if (!RobloxProcessHandle) {
         std::cout << "Couldn't open the Roblox process." << std::endl;
         return 1;
+        system("pause");
     }
 
     const char* dllPath = "injector.dll";
     LPVOID dllPathAdress = VirtualAllocEx(RobloxProcessHandle, NULL, strlen(dllPath) + 1, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
-    std::cout << "Couldn't assign memory in the Roblox Process." << std::endl;
-    CloseHandle(RobloxProcessHandle);
-    return 1;
+    if (!dllPathAdress)
+    {
+        std::cout << "Couldn't assign memory in the Roblox Process." << std::endl;
+        CloseHandle(RobloxProcessHandle);
+        return 1;
+        system("pause");
+    }
+    
 
     // Write DLL Filename in the assigned memory.
     if (!WriteProcessMemory (RobloxProcessHandle, dllPathAdress, dllPath, strlen (dllPath) + 1, NULL)) {
@@ -139,6 +154,7 @@ int main(int argc, char const* argv[]) {
         VirtualFreeEx(RobloxProcessHandle, dllPathAdress, strlen(dllPath) + 1, MEM_RELEASE);
         CloseHandle(RobloxProcessHandle);
         return 1;
+        system("pause");
     }
 
     // Create a thread into the Roblox Process to load the Dynamic Link-Library file.
@@ -148,6 +164,7 @@ int main(int argc, char const* argv[]) {
         VirtualFreeEx(RobloxProcessHandle, dllPathAdress, strlen(dllPath) + 1, MEM_RELEASE);
         CloseHandle(RobloxProcessHandle);
         return 1;
+        system("pause");
     }
 
     // Wait for the thread to finish.
@@ -161,4 +178,5 @@ int main(int argc, char const* argv[]) {
     CloseHandle(RobloxProcessHandle);
 
     printf("\x1B[32mLooks like everything is OK, LInjector has been injecte\033[0m\t\t");
+    system("pause");
 }
