@@ -5,6 +5,7 @@
 #include <cstring>
 #include <stdlib.h>
 #include <Psapi.h>
+#include <sal.h>
 #include <TlHelp32.h>
 #include <libloaderapi.h>
 
@@ -15,7 +16,7 @@ void Reload() {
 int main(int argc, char const* argv[]) {
     MessageBox(NULL, L"This application was made by @ItzzzExcel as an open-source project under the MIT License.", L"LInjector | Welcome", NULL);
 
-    const char* DLLPath = "injector.dll";
+    const char* DLLPath = "libs/injector.dll";
     
     int wstrLength = MultiByteToWideChar(CP_ACP, 0, DLLPath, -1, NULL, 0);
     wchar_t* WDLLPath = new wchar_t[wstrLength];
@@ -178,5 +179,7 @@ int main(int argc, char const* argv[]) {
     CloseHandle(RobloxProcessHandle);
 
     printf("\x1B[32mLooks like everything is OK, LInjector has been injecte\033[0m\t\t");
-    system("pause");
+    system("pause"); 
+
+    return 0;
 }
