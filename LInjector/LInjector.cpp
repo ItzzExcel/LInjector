@@ -5,6 +5,7 @@
 #include <cstring>
 #include <stdlib.h>
 #include <Psapi.h>
+#include "resource.h"
 #include <sal.h>
 #include <TlHelp32.h>
 #include <libloaderapi.h>
