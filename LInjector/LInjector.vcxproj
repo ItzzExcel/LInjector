@@ -129,6 +129,15 @@
   <ItemGroup>
     <ClCompile Include="LInjector.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="LInjector.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Linjectorico.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

@@ -4,11 +4,11 @@
 #include <memoryapi.h>
 #include <cstring>
 #include <stdlib.h>
-#include "resource.h"
 #include <Psapi.h>
 #include <sal.h>
 #include <TlHelp32.h>
 #include <libloaderapi.h>
+#include "resource.h"
 
 void Reload() {
     system("LInjector.exe");
