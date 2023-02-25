@@ -181,7 +181,7 @@ int main(int argc, char const* argv[]) {
 
     printf("\x1B[32mLooks like everything is OK,\n LInjector has been injected\033[0m\t\t");
     std::cout << std::endl << std::endl;
-    system("pause"); 
+    system("pause > nul"); 
 
     return 0;
 }
