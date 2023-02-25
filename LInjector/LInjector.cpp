@@ -18,7 +18,7 @@ int main(int argc, char const* argv[]) {
     MessageBox(NULL, L"This application was made by @ItzzzExcel as an open-source project under the MIT License.", L"LInjector | Welcome", NULL);
 
     const char* DLLPath = "libs/injector.dll";
-    
+
     int wstrLength = MultiByteToWideChar(CP_ACP, 0, DLLPath, -1, NULL, 0);
     wchar_t* WDLLPath = new wchar_t[wstrLength];
     MultiByteToWideChar(CP_ACP, 0, DLLPath, -1, WDLLPath, wstrLength);
@@ -55,7 +55,7 @@ int main(int argc, char const* argv[]) {
 
     if (TargetProcessID == 0)
     {
-        std::cerr << "Couldn't find process : " << Targett << std::endl;
+        std::cerr << "Couldn't find the Roblox process : " << Targett << std::endl;
         return 1;
         system("pause");
     }
@@ -65,7 +65,7 @@ int main(int argc, char const* argv[]) {
     HANDLE TargetProcessHandle = OpenProcess(PROCESS_ALL_ACCESS, FALSE, TargetProcessID);
     if (TargetProcessHandle == NULL)
     {
-        std::cerr << "Couldn't get a handle for the target process." << std::endl;
+        std::cerr << "Couldn't get a handle for the Roblox process." << std::endl;
         return 1;
         system("pause");
     }
@@ -148,10 +148,10 @@ int main(int argc, char const* argv[]) {
         return 1;
         system("pause");
     }
-    
+
 
     // Write DLL Filename in the assigned memory.
-    if (!WriteProcessMemory (RobloxProcessHandle, dllPathAdress, dllPath, strlen (dllPath) + 1, NULL)) {
+    if (!WriteProcessMemory(RobloxProcessHandle, dllPathAdress, dllPath, strlen(dllPath) + 1, NULL)) {
         std::cout << "Couldn't write the DLL Filename in the Roblox Process." << std::endl;
         VirtualFreeEx(RobloxProcessHandle, dllPathAdress, strlen(dllPath) + 1, MEM_RELEASE);
         CloseHandle(RobloxProcessHandle);
@@ -173,13 +173,14 @@ int main(int argc, char const* argv[]) {
     WaitForSingleObject(RemoteThread, INFINITE);
 
     // Free the assigned memory in the Roblox Process.
-    VirtualFreeEx(RobloxProcessHandle, dllPathAdress, strlen (dllPath) + 1, MEM_RELEASE);
+    VirtualFreeEx(RobloxProcessHandle, dllPathAdress, strlen(dllPath) + 1, MEM_RELEASE);
 
     // Close the handles.
     CloseHandle(RemoteThread);
     CloseHandle(RobloxProcessHandle);
 
-    printf("\x1B[32mLooks like everything is OK, LInjector has been injecte\033[0m\t\t");
+    printf("\x1B[32mLooks like everything is OK,\n LInjector has been injected\033[0m\t\t");
+    std::cout << std::endl << std::endl;
     system("pause"); 
 
     return 0;
