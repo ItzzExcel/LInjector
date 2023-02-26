@@ -18,10 +18,6 @@
 #pragma comment (lib, "kernel32.lib")
 #define GetProcessHandle
 
-void Reload() {
-    system("LInjector.exe");
-};
-
 namespace fs = std::filesystem;
 
 int main(int argc, char const* argv[]) {
