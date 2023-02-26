@@ -4,3 +4,12 @@
   </p>
 <h3 align="center">A Light Injector for your Roblox Scripts.</h3>
 
+### Requierements
+- Visual Studio 2019 or higher 
+- Windows SDK 10.19041.0
+
+### Installation
+- First, clone this repo `gh repo clone ItzzExcel/LInjector`.
+- Next, open it with Visual Studio (From Windows 10/11)}
+- Compile the solution / project.
+- Move `/libs folder to /LInjector/x64/Debug/..` (The folder must include the `injector.dll` file) 
