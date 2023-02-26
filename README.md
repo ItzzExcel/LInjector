@@ -6,7 +6,8 @@
 
 ### Requierements
 - Visual Studio 2019 or higher 
-- Windows SDK 10.19041.0
+- Windows SDK 10.19041.0 highers doesn't work.
+- C++17
 
 ### Installation
 - First, clone this repo `gh repo clone ItzzExcel/LInjector`.
