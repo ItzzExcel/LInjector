@@ -3,16 +3,27 @@
 #include <string>
 #include <memoryapi.h>
 #include <cstring>
+#include <string.h>
 #include <stdlib.h>
+#include <processthreadsapi.h>
 #include <Psapi.h>
 #include <sal.h>
 #include <TlHelp32.h>
-#include <libloaderapi.h>
+#include <fstream>
+#include <cstdio>
+#include <  libloaderapi.h>
+#include <filesystem>
+#include <vector>
 #include "resource.h"
+#pragma comment (lib, "kernel32.lib")
+#pragma comment (lib, "kernel32.dll")
+#define GetProcessHandle
 
 void Reload() {
     system("LInjector.exe");
 };
+
+namespace fs = std::filesystem;
 
 int main(int argc, char const* argv[]) {
     MessageBox(NULL, L"This application was made by @ItzzzExcel as an open-source project under the MIT License.", L"LInjector | Welcome", NULL);
@@ -191,7 +202,55 @@ int main(int argc, char const* argv[]) {
 
     printf("\x1B[32mLooks like everything is OK,\nLInjector has been injected\033[0m\t\t");
     std::cout << std::endl << std::endl;
-    system("pause > nul"); 
 
+    std::string LocationScripts;
+    std::vector<std::string> ScriptFilesoepe;
+
+    std::cout << std::endl << std::endl << "Enter the directory of the scripts." << std::endl <<
+        "Example: C:/Desktop/Scripts (MUST USE SLASH (NOT INVERTED ONE))" << std::endl << std::endl << " < ";
+    std::cin >> LocationScripts;
+    std::cout << std::endl << std::endl << "Intializing..." << std::endl << std::endl;
+    int i = 1;
+    for (const auto& Entry : fs::directory_iterator (LocationScripts)) {
+        if (Entry.is_regular_file ()) {
+            std::cout << i << ". | " << Entry.path().filename().string() << std::endl;
+            ScriptFilesoepe.push_back(Entry.path().string());
+            ++ i;
+        }
+    }
+
+    // Get user selection
+
+    int Selectn;
+    std::cout << std::endl << std::endl << "Enter the number of the script to execute." << std::endl << std::endl << " < ";
+    std::cin >> Selectn;
+    if (Selectn > 0 && Selectn <= ScriptFilesoepe.size()) {
+        wchar_t* dllPathWide = new wchar_t[strlen(dllPath) + 1];
+        // Copy the narrow string to the wide string
+        size_t convertedChars = 0;
+        HMODULE hModule = LoadLibraryA("injector.dll");
+        if (hModule == NULL) {
+            std::cout << "Failed to load library." << std::endl;
+            system("pause > nul");
+            return 1;
+        }
+
+
+        FARPROC Injectt = GetProcAddress(hModule, "injector.dll");
+        std::string selectedScriptPath = std::filesystem::absolute(ScriptFilesoepe[Selectn - 1]).string();
+        HANDLE RobloxProcessHandlee = GetProcessHandle(L"RobloxPlayerBeta.exe");
+        Injectt(TargetRBLX, selectedScriptPath.c_str());
+        CloseHandle(RobloxProcessHandle);
+
+        FreeLibrary(hModule);
+        
+    }
+    else {
+        std::cout << "Invalid selection." << std::endl;
+        system("pause > nul");
+        return 1;
+    }
+
+    system("pause > nul"); 
     return 0;
 }
