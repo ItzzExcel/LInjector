@@ -11,12 +11,11 @@
 #include <TlHelp32.h>
 #include <fstream>
 #include <cstdio>
-#include <  libloaderapi.h>
+#include <libloaderapi.h>
 #include <filesystem>
 #include <vector>
 #include "resource.h"
 #pragma comment (lib, "kernel32.lib")
-#pragma comment (lib, "kernel32.dll")
 #define GetProcessHandle
 
 void Reload() {
@@ -158,7 +157,7 @@ int main(int argc, char const* argv[]) {
         
     }
 
-    const char* dllPath = "injector.dll";
+    const char* dllPath = "libs/injector.dll";
     LPVOID dllPathAdress = VirtualAllocEx(RobloxProcessHandle, NULL, strlen(dllPath) + 1, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
     if (!dllPathAdress)
     {
@@ -228,14 +227,14 @@ int main(int argc, char const* argv[]) {
         wchar_t* dllPathWide = new wchar_t[strlen(dllPath) + 1];
         // Copy the narrow string to the wide string
         size_t convertedChars = 0;
-        HMODULE hModule = LoadLibraryA("injector.dll");
+        HMODULE hModule = LoadLibraryA("libs/injector.dll");
         if (hModule == NULL) {
             std::cout << "Failed to load library." << std::endl;
-            system("pause > nul");
+            system("pause");
             return 1;
         }
 
-
+        /*
         FARPROC Injectt = GetProcAddress(hModule, "injector.dll");
         std::string selectedScriptPath = std::filesystem::absolute(ScriptFilesoepe[Selectn - 1]).string();
         HANDLE RobloxProcessHandlee = GetProcessHandle(L"RobloxPlayerBeta.exe");
@@ -243,11 +242,11 @@ int main(int argc, char const* argv[]) {
         CloseHandle(RobloxProcessHandle);
 
         FreeLibrary(hModule);
-        
+        */
     }
     else {
         std::cout << "Invalid selection." << std::endl;
-        system("pause > nul");
+        system("pause");
         return 1;
     }
 
