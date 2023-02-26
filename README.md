@@ -11,6 +11,6 @@
 
 ### Installation
 - First, clone this repo `gh repo clone ItzzExcel/LInjector`.
-- Next, open it with Visual Studio (From Windows 10/11)}
+- Next, open it with Visual Studio (From Windows 10/11).
 - Compile the solution / project.
 - Move `/libs folder to /LInjector/x64/Debug/..` (The folder must include the `injector.dll` file) 
