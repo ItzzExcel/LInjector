@@ -15,8 +15,13 @@
 #include <libloaderapi.h>
 #include <filesystem>
 #include <vector>
+
+// My Headers
 #include "GProcessHndl.h"
+#include "resource.h"
 #include "getLoadLibraryAddress.h"
+
+// Main Code
 
 void injectWithHandleAndPath(HANDLE handle, const char* path) {
     // Obtener la dirección de la función inyectora
@@ -38,10 +43,6 @@ void injectWithHandleAndPath(HANDLE handle, const char* path) {
     injectFunc injector = reinterpret_cast<injectFunc>(injectAddress);
     injector(handle, path);
 }
-
-// My Headers
-#include "resource.h"
-#include "GProcessHndl.h"
 
 // Pragmas
 #pragma comment (lib, "kernel32.lib")
