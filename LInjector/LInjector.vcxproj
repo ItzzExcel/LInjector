@@ -131,6 +131,8 @@
     <ClCompile Include="LInjector.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="getLoadLibraryAddress.h" />
+    <ClInclude Include="GProcessHndl.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

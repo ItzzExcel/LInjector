@@ -1,4 +1,5 @@
-﻿#include <iostream>
+﻿// Headers
+#include <iostream>
 #include <Windows.h>
 #include <string>
 #include <memoryapi.h>
@@ -14,11 +15,41 @@
 #include <libloaderapi.h>
 #include <filesystem>
 #include <vector>
+#include "GProcessHndl.h"
+#include "getLoadLibraryAddress.h"
+
+void injectWithHandleAndPath(HANDLE handle, const char* path) {
+    // Obtener la dirección de la función inyectora
+    HMODULE hoModule = GetModuleHandleA("libs/injector.dll");
+    if (hoModule == NULL) {
+        std::cerr << "Couldn't get the handle of the injector.dll module." << std::endl;
+        system("pause");
+        return;
+    }
+
+    FARPROC injectAddress = GetProcAddress(hoModule, "inject");
+    if (injectAddress == NULL) {
+        std::cerr << "Couldn't get the pointer of the inject function." << std::endl;
+        system("pause");
+        return;
+    }
+
+    typedef void (*injectFunc)(HANDLE, const char*);
+    injectFunc injector = reinterpret_cast<injectFunc>(injectAddress);
+    injector(handle, path);
+}
+
+// My Headers
 #include "resource.h"
+#include "GProcessHndl.h"
+
+// Pragmas
 #pragma comment (lib, "kernel32.lib")
-#define GetProcessHandle
 
 namespace fs = std::filesystem;
+void Pause () {
+    system("pause");
+};
 
 int main(int argc, char const* argv[]) {
     MessageBox(NULL, L"This application was made by @ItzzzExcel as an open-source project under the MIT License.", L"LInjector | Welcome", NULL);
@@ -52,7 +83,7 @@ int main(int argc, char const* argv[]) {
     {
         do
         {
-            if (_wcsicmp(entry.szExeFile, Targett) == NULL) {
+            if (_wcsicmp(entry.szExeFile, Targett) == 0) {
                 TargetProcessID = entry.th32ProcessID;
                 break;
             }
@@ -104,8 +135,9 @@ int main(int argc, char const* argv[]) {
     // Write in the DLL Path to inject to the memory block.
     if (!WriteProcessMemory(TargetProcessHandle, RemoteMemory, DLLPath, strlen(DLLPath) + 1, NULL)) {
         std::cerr << "Couldn't write in the path of the Dynamic Link-Library in the memory block." << std::endl;
-        return 1;
         system("pause");
+        return 1;
+    
     }
 
     // Get the path of the function LoadLibrary
@@ -130,7 +162,7 @@ int main(int argc, char const* argv[]) {
     Entry.dwSize = sizeof(PROCESSENTRY32);
     while (Process32Next(Snapshot_, &Entry) == TRUE)
     {
-        if (_wcsicmp(Entry.szExeFile, Targett) == NULL)
+        if (_wcsicmp(Entry.szExeFile, Targett) == 0)
         {
             RblxProcessId = Entry.th32ProcessID;
             break;
@@ -146,6 +178,12 @@ int main(int argc, char const* argv[]) {
     }
 
     HANDLE RobloxProcessHandle = OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, FALSE, RblxProcessId);
+    if (!RobloxProcessHandle)
+    {
+        std::cerr << "Couldn't open the RobloxProcessHandle." << std::endl;
+        system("pause");
+        return 1;
+    }
     if (!RobloxProcessHandle) {
         std::cout << "Couldn't open the Roblox process." << std::endl;
         system("pause");
@@ -230,15 +268,29 @@ int main(int argc, char const* argv[]) {
             return 1;
         }
 
-        /*
-        FARPROC Injectt = GetProcAddress(hModule, "injector.dll");
+        typedef void(*injectorFunc)();
+        injectorFunc LOL = (injectorFunc)GetProcAddress(hModule, "libs/injector.dll");
         std::string selectedScriptPath = std::filesystem::absolute(ScriptFilesoepe[Selectn - 1]).string();
         HANDLE RobloxProcessHandlee = GetProcessHandle(L"RobloxPlayerBeta.exe");
-        Injectt(TargetRBLX, selectedScriptPath.c_str());
-        CloseHandle(RobloxProcessHandle);
+        if (RobloxProcessHandlee != INVALID_HANDLE_VALUE) {
+            if (injectWithHandleAndPath != NULL) {
+                std::string selectedScriptPath = std::filesystem::absolute(ScriptFilesoepe[Selectn - 1]).string();
+                injectWithHandleAndPath(RobloxProcessHandlee, selectedScriptPath.c_str());
+            } else {
+                std::cerr << "Couldn't get the pointer of the process." << std::endl;
+                system ("pause");;
+                return 1;
+            }
+        }
+        else {
+            std::cerr << "GetProcessHandle couldn't get the process." << std::endl;
+            system ("pause");;
+            return 1;
+        }
 
+        CloseHandle(RobloxProcessHandle);
         FreeLibrary(hModule);
-        */
+        
     }
     else {
         std::cout << "Invalid selection." << std::endl;
